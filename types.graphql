@@ -1,0 +1,46 @@
+# The following types define the data model of the example service
+# based on which the GraphQL API is generated
+
+type Artist @model {
+  id: ID! @isUnique
+  name: String!
+  tours: [Tour!]! @relation(name: "ArtistTours")
+}
+
+type Tour @model {
+  id: ID! @isUnique
+  name: String!
+  artist: Artist @relation(name: "ArtistTours")
+  concerts: [Concert!]! @relation(name: "TourConcerts")
+}
+
+type Venue @model {
+  id: ID! @isUnique
+  name: String!
+  city: String!
+  region: String! # state/province
+  country: String!
+  concerts: [Venue!]! @relation(name: "ConcertVenue")
+}
+
+type Song @model {
+  id: ID! @isUnique
+  name: String!
+}
+
+type ConcertSong @model {
+  id: ID! @isUnique
+  song: Song 
+  concerts: [ConcertSong!]! @relation(name: "ConcertSongs")
+  guests: [Artist]
+  notes: String
+}
+
+tygit Concert @model {
+  id: ID! @isUnique
+  tour: Tour! @relation(name: "TourConcerts")
+  venue: Venue! @relation(name: "ConcertVenue")
+  start: DateTime!
+  setlist: [ConcertSong!]! @relation(name: "ConcertSongs")
+  opener: Artist 
+}
