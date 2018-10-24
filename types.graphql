@@ -26,21 +26,24 @@ type Venue @model {
 type Song @model {
   id: ID! @isUnique
   name: String!
+  # performances: [SongPerformance!]! @relation(name: "SongPerformances")
+  # slug: String!
 }
 
-type ConcertSong @model {
+type SongPerformance @model {
   id: ID! @isUnique
-  song: Song 
-  concerts: [ConcertSong!]! @relation(name: "ConcertSongs")
-  guests: [Artist]
-  notes: String
+  song: Song! @relation(name: "Song")
+  concerts: [SongPerformance!]! @relation(name: "SongPerformances")
+  # length: Integer
+  # guests: [Artist!]!
+  # notes: String
 }
 
-tygit Concert @model {
+type Concert @model {
   id: ID! @isUnique
-  tour: Tour! @relation(name: "TourConcerts")
-  venue: Venue! @relation(name: "ConcertVenue")
-  start: DateTime!
-  setlist: [ConcertSong!]! @relation(name: "ConcertSongs")
-  opener: Artist 
+  setlist: [SongPerformance!]! @relation(name: "SongPerformances")
+  # tour: Tour! @relation(name: "TourConcerts")
+  # venue: Venue! @relation(name: "ConcertVenue")
+  # start: DateTime!
+  # opener: Concert @relation(name: "ConcertOpener")
 }

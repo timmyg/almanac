@@ -1,5 +1,11 @@
 {
   "name": "almanac",
   "version": "1.0.0",
-  "description": "My Graphcool Service"
+  "description": "My Graphcool Service",
+  "scripts": {
+    "deploy": "graphcool deploy"
+  },
+  "devDependencies": {
+    "graphcool": "^0.11.6"
+  }
 }
