@@ -5,6 +5,7 @@ type Artist @model {
   id: ID! @isUnique
   name: String!
   tours: [Tour!]! @relation(name: "ArtistTours")
+  guest: [SongPerformance!]! @relation(name: "SongPerformanceGuest")
 }
 
 type Tour @model {
@@ -17,33 +18,39 @@ type Tour @model {
 type Venue @model {
   id: ID! @isUnique
   name: String!
+  location: Location  @relation(name: "VenueLocation")
+  concerts: [Concert!]! @relation(name: "ConcertVenue")
+}
+
+type Location @model {
+  id: ID! @isUnique
   city: String!
   region: String! # state/province
   country: String!
-  concerts: [Venue!]! @relation(name: "ConcertVenue")
+  venues: [Venue!]! @relation(name: "VenueLocation")
 }
 
 type Song @model {
   id: ID! @isUnique
   name: String!
-  # performances: [SongPerformance!]! @relation(name: "SongPerformances")
-  # slug: String!
+  performances: [SongPerformance!]! @relation(name: "SongPerformances")
+  short: String!
 }
 
 type SongPerformance @model {
   id: ID! @isUnique
-  song: Song! @relation(name: "Song")
-  concerts: [SongPerformance!]! @relation(name: "SongPerformances")
-  # length: Integer
-  # guests: [Artist!]!
-  # notes: String
+  song: Song! @relation(name: "SongPerformances")
+  concerts: [Concert!]! @relation(name: "ConcertSongPerformances")
+  length: Int
+  guests: [Artist!]! @relation(name: "SongPerformanceGuest")
+  notes: String
 }
 
 type Concert @model {
   id: ID! @isUnique
-  setlist: [SongPerformance!]! @relation(name: "SongPerformances")
-  # tour: Tour! @relation(name: "TourConcerts")
-  # venue: Venue! @relation(name: "ConcertVenue")
-  # start: DateTime!
-  # opener: Concert @relation(name: "ConcertOpener")
+  setlist: [SongPerformance!]! @relation(name: "ConcertSongPerformances")
+  tour: Tour! @relation(name: "TourConcerts")
+  venue: Venue! @relation(name: "ConcertVenue")
+  start: DateTime!
+  opener: Concert @relation(name: "ConcertOpener")
 }
